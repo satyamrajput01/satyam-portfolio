@@ -1069,6 +1069,291 @@ footer {
 }
 
 
+/* ================= CERTIFICATIONS ================= */
+
+.certifications {
+  padding: 150px 7vw;
+  background: #0a0a0a;
+}
+
+.certifications .section-label {
+  color: #888;
+}
+
+.certifications-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 50px;
+  margin-bottom: 60px;
+}
+
+.certifications-heading h2 {
+  font-size: clamp(3rem, 6vw, 6rem);
+  line-height: 0.9;
+  letter-spacing: -0.07em;
+}
+
+.certifications-heading p {
+  max-width: 430px;
+  color: #999;
+}
+
+.certifications-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.certification-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #111;
+  border: 1px solid #252525;
+  border-radius: 20px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.certification-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 48, 69, 0.55);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 48, 69, 0.08);
+}
+
+.certificate-preview {
+  position: relative;
+  height: 210px;
+  overflow: hidden;
+  background: #1a1a1a;
+  border-bottom: 1px solid #252525;
+}
+
+.certificate-preview iframe,
+.certificate-preview img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  pointer-events: none;
+  background: #1a1a1a;
+  object-fit: contain;
+}
+
+.achievement-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 6px 11px;
+  border: 1px solid;
+  border-radius: 50px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  backdrop-filter: blur(10px);
+}
+
+.gold-badge {
+  color: #e4c983;
+  background: rgba(45, 37, 20, 0.9);
+  border-color: rgba(228, 201, 131, 0.35);
+}
+
+.bronze-badge {
+  color: #deb18e;
+  background: rgba(48, 34, 24, 0.92);
+  border-color: rgba(222, 177, 142, 0.35);
+}
+
+.silver-badge {
+  color: #d1d4d8;
+  background: rgba(35, 38, 42, 0.92);
+  border-color: rgba(209, 212, 216, 0.3);
+}
+
+.elite-badge,
+.score-badge {
+  color: #fff;
+  background: rgba(230, 57, 70, 0.9);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.certification-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 22px;
+}
+
+.certification-details {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 13px;
+  color: #888;
+  font-size: 0.68rem;
+}
+
+.certification-issuer {
+  color: #ff6878;
+  font-weight: 700;
+}
+
+.certification-details time {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.certification-content h3 {
+  margin-bottom: 13px;
+  font-size: 1.15rem;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+
+.certification-content p {
+  margin-bottom: 20px;
+  color: #999;
+  font-size: 0.8rem;
+  line-height: 1.65;
+}
+
+.certification-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: -2px 0 14px;
+}
+
+.certification-skills span {
+  padding: 5px 9px;
+  border: 1px solid #303030;
+  border-radius: 50px;
+  color: #bbb;
+  font-size: 0.63rem;
+}
+
+.certificate-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding: 10px 15px;
+  border: 1px solid #383838;
+  border-radius: 50px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.certificate-button:hover {
+  transform: translateY(-2px);
+  border-color: #ff3045;
+  background: #ff3045;
+}
+
+.certificate-button:focus-visible,
+.certificate-viewer-close:focus-visible {
+  outline: 2px solid #ff6878;
+  outline-offset: 3px;
+}
+
+.certificate-viewer {
+  width: min(1100px, calc(100% - 32px));
+  max-width: none;
+  max-height: calc(100% - 32px);
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #333;
+  border-radius: 18px;
+  background: #111;
+  color: #fff;
+  box-shadow: 0 25px 90px rgba(0, 0, 0, 0.7);
+}
+
+.certificate-viewer::backdrop {
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(6px);
+}
+
+.certificate-viewer-content {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 34px);
+  padding: 14px;
+}
+
+.certificate-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 2px 2px 12px;
+}
+
+.certificate-viewer-header h2 {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.certificate-viewer-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #383838;
+  border-radius: 50px;
+  background: #191919;
+  color: #fff;
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.certificate-viewer-close span {
+  color: #ff6878;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.certificate-viewer iframe {
+  width: 100%;
+  height: min(78vh, 850px);
+  min-height: 300px;
+  border: 0;
+  border-radius: 10px;
+  background: #1a1a1a;
+}
+
+.certificate-viewer-image {
+  display: block;
+  max-width: 100%;
+  max-height: min(78vh, 850px);
+  margin: 0 auto;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #1a1a1a;
+}
+
+.certificate-viewer-image[hidden] {
+  display: none;
+}
+
+.certificate-viewer iframe[hidden] {
+  display: none;
+}
+
+
 /* ================= ANIMATIONS ================= */
 
 .reveal {
@@ -1088,6 +1373,10 @@ footer {
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 1000px) {
+
+  .certifications-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
   .nav-links {
     gap: 18px;
@@ -1132,6 +1421,34 @@ footer {
 
 
 @media (max-width: 700px) {
+
+  .certifications {
+    padding: 100px 25px;
+  }
+
+  .certifications-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+  }
+
+  .certifications-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .certificate-preview {
+    height: 225px;
+  }
+
+  .certificate-viewer-content {
+    max-height: calc(100vh - 24px);
+    padding: 10px;
+  }
+
+  .certificate-viewer iframe {
+    height: 72vh;
+    min-height: 220px;
+  }
 
   .navbar {
     padding: 0 20px;

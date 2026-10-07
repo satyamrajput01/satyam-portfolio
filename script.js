@@ -29,7 +29,7 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 // ================= SCROLL REVEAL =================
 
 const revealElements = document.querySelectorAll(
-  ".about-content, .about-photo, .skill-card, .process-item, .project, .soft-grid div, .contact-item"
+  ".about-content, .about-photo, .skill-card, .certification-card, .process-item, .project, .soft-grid div, .contact-item"
 );
 
 revealElements.forEach((element) => {
@@ -117,6 +117,78 @@ emailLinks.forEach((link) => {
   });
 
 });
+
+
+// ================= CERTIFICATE VIEWER =================
+
+const certificateViewer = document.querySelector(".certificate-viewer");
+
+if (certificateViewer instanceof HTMLDialogElement) {
+
+  const certificateFrame = certificateViewer.querySelector("iframe");
+  const certificateImage = certificateViewer.querySelector(".certificate-viewer-image");
+  const certificateTitle = certificateViewer.querySelector("#certificate-viewer-title");
+  const closeCertificateViewer = certificateViewer.querySelector(".certificate-viewer-close");
+
+  document.querySelectorAll(".certificate-button").forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+      const certificatePath = button.dataset.certificate;
+      const certificateType = button.dataset.certificateType;
+      const title = button.dataset.certificateTitle;
+
+      if (!certificatePath || !title || !certificateFrame || !certificateImage || !certificateTitle) {
+        return;
+      }
+
+      certificateTitle.textContent = title;
+      certificateFrame.hidden = certificateType === "image";
+      certificateImage.hidden = certificateType !== "image";
+
+      if (certificateType === "image") {
+        certificateFrame.src = "about:blank";
+        certificateImage.src = certificatePath;
+        certificateImage.alt = `${title} certificate`;
+      } else {
+        certificateImage.removeAttribute("src");
+        certificateImage.alt = "";
+        certificateFrame.title = `${title} certificate`;
+        certificateFrame.src = `${certificatePath}#page=1&toolbar=0&navpanes=0`;
+      }
+
+      certificateViewer.showModal();
+
+    });
+
+  });
+
+  closeCertificateViewer?.addEventListener("click", () => {
+    certificateViewer.close();
+  });
+
+  certificateViewer.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      certificateViewer.close();
+    }
+  });
+
+  certificateViewer.addEventListener("click", (event) => {
+    if (event.target === certificateViewer) {
+      certificateViewer.close();
+    }
+  });
+
+  certificateViewer.addEventListener("close", () => {
+    if (certificateFrame) {
+      certificateFrame.src = "about:blank";
+    }
+    if (certificateImage) {
+      certificateImage.removeAttribute("src");
+    }
+  });
+
+}
 
 
 // ================= PAGE LOAD =================
