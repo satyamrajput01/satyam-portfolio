@@ -15,7 +15,7 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
       event.preventDefault();
 
       target.scrollIntoView({
-        behavior: "smooth",
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
         block: "start"
       });
 
@@ -119,76 +119,29 @@ emailLinks.forEach((link) => {
 });
 
 
-// ================= CERTIFICATE VIEWER =================
+// ================= CERTIFICATE PREVIEWS =================
 
-const certificateViewer = document.querySelector(".certificate-viewer");
+document.querySelectorAll(".certificate-thumbnail").forEach((image) => {
+  const preview = image.closest(".certificate-preview");
 
-if (certificateViewer instanceof HTMLDialogElement) {
+  if (!preview) {
+    return;
+  }
 
-  const certificateFrame = certificateViewer.querySelector("iframe");
-  const certificateImage = certificateViewer.querySelector(".certificate-viewer-image");
-  const certificateTitle = certificateViewer.querySelector("#certificate-viewer-title");
-  const closeCertificateViewer = certificateViewer.querySelector(".certificate-viewer-close");
+  const showThumbnail = () => preview.classList.add("has-thumbnail");
+  const showFallback = () => preview.classList.add("preview-image-failed");
 
-  document.querySelectorAll(".certificate-button").forEach((button) => {
+  image.addEventListener("load", showThumbnail, { once: true });
+  image.addEventListener("error", showFallback, { once: true });
 
-    button.addEventListener("click", () => {
-
-      const certificatePath = button.dataset.certificate;
-      const certificateType = button.dataset.certificateType;
-      const title = button.dataset.certificateTitle;
-
-      if (!certificatePath || !title || !certificateFrame || !certificateImage || !certificateTitle) {
-        return;
-      }
-
-      certificateTitle.textContent = title;
-      certificateFrame.hidden = certificateType === "image";
-      certificateImage.hidden = certificateType !== "image";
-
-      if (certificateType === "image") {
-        certificateFrame.src = "about:blank";
-        certificateImage.src = certificatePath;
-        certificateImage.alt = `${title} certificate`;
-      } else {
-        certificateImage.removeAttribute("src");
-        certificateImage.alt = "";
-        certificateFrame.title = `${title} certificate`;
-        certificateFrame.src = `${certificatePath}#page=1&toolbar=0&navpanes=0`;
-      }
-
-      certificateViewer.showModal();
-
-    });
-
-  });
-
-  closeCertificateViewer?.addEventListener("click", () => {
-    certificateViewer.close();
-  });
-
-  certificateViewer.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      certificateViewer.close();
+  if (image.complete) {
+    if (image.naturalWidth > 0) {
+      showThumbnail();
+    } else {
+      showFallback();
     }
-  });
-
-  certificateViewer.addEventListener("click", (event) => {
-    if (event.target === certificateViewer) {
-      certificateViewer.close();
-    }
-  });
-
-  certificateViewer.addEventListener("close", () => {
-    if (certificateFrame) {
-      certificateFrame.src = "about:blank";
-    }
-    if (certificateImage) {
-      certificateImage.removeAttribute("src");
-    }
-  });
-
-}
+  }
+});
 
 
 // ================= PAGE LOAD =================
