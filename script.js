@@ -73,43 +73,74 @@ const revealElements = document.querySelectorAll(
   ".about-content, .about-photo, .skill-card, .certification-card, .process-item, .project, .soft-grid div, .contact-item"
 );
 
-revealElements.forEach((element) => {
-  element.classList.add("reveal");
-});
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+if (!reducedMotion && "IntersectionObserver" in window) {
+  revealElements.forEach((element) => {
+    element.classList.add("reveal");
+  });
 
-const observer = new IntersectionObserver(
-  (entries) => {
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      rootMargin: "0px 0px -35px 0px",
+      threshold: 0.08
+    }
+  );
 
-    entries.forEach((entry) => {
+  revealElements.forEach((element) => {
+    revealObserver.observe(element);
+  });
+}
 
-      if (entry.isIntersecting) {
+const sectionLinks = [...navMenu.querySelectorAll('a[href^="#"]')];
+const navigationSections = sectionLinks
+  .map((link) => document.querySelector(link.getAttribute("href")))
+  .filter(Boolean);
 
-        entry.target.classList.add("visible");
+if ("IntersectionObserver" in window) {
+  const navigationObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          return;
+        }
 
-        observer.unobserve(entry.target);
+        const activeLink = navMenu.querySelector(`a[href="#${entry.target.id}"]`);
 
-      }
+        sectionLinks.forEach((link) => {
+          if (link === activeLink) {
+            link.setAttribute("aria-current", "location");
+          } else {
+            link.removeAttribute("aria-current");
+          }
+        });
+      });
+    },
+    {
+      rootMargin: "-30% 0px -60% 0px",
+      threshold: 0
+    }
+  );
 
-    });
-
-  },
-  {
-    threshold: 0.12
-  }
-);
-
-
-revealElements.forEach((element) => {
-  observer.observe(element);
-});
+  navigationSections.forEach((section) => {
+    navigationObserver.observe(section);
+  });
+}
 
 
 // ================= NAVBAR SCROLL EFFECT =================
 
 window.addEventListener("scroll", () => {
   navbar.classList.toggle("is-scrolled", window.scrollY > 24);
-});
+}, { passive: true });
 
 
 // ================= CONTACT EMAIL =================
