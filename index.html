@@ -16,12 +16,14 @@
 
 <body>
 
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
   <!-- ================= NAVBAR ================= -->
 
   <header class="navbar">
     <a href="#home" class="logo">SR<span>.</span></a>
 
-    <nav class="nav-links">
+    <nav id="nav-menu" class="nav-links" aria-label="Main navigation">
       <a href="#home">Home</a>
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
@@ -30,13 +32,18 @@
       <a href="#contact">Contact</a>
     </nav>
 
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Open navigation menu">
+      <span></span>
+      <span></span>
+    </button>
+
     <a href="#contact" class="hire-btn">Let's Talk ↗</a>
   </header>
 
 
   <!-- ================= HERO ================= -->
 
-  <main>
+  <main id="main-content" tabindex="-1">
 
     <section id="home" class="hero">
 

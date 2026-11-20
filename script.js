@@ -14,6 +14,10 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 
       event.preventDefault();
 
+      if (this.classList.contains("skip-link")) {
+        target.focus({ preventScroll: true });
+      }
+
       target.scrollIntoView({
         behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
         block: "start"
@@ -23,6 +27,43 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 
   });
 
+});
+
+// ================= MOBILE NAVIGATION =================
+
+const navbar = document.querySelector(".navbar");
+const menuToggle = document.querySelector(".menu-toggle");
+const navMenu = document.querySelector("#nav-menu");
+
+const closeMenu = () => {
+  navbar.classList.remove("menu-open");
+  menuToggle.setAttribute("aria-expanded", "false");
+  menuToggle.setAttribute("aria-label", "Open navigation menu");
+};
+
+menuToggle.addEventListener("click", () => {
+  const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
+
+  menuToggle.setAttribute("aria-expanded", String(!isExpanded));
+  menuToggle.setAttribute("aria-label", isExpanded ? "Open navigation menu" : "Close navigation menu");
+  navbar.classList.toggle("menu-open", !isExpanded);
+});
+
+navMenu.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", closeMenu);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && menuToggle.getAttribute("aria-expanded") === "true") {
+    closeMenu();
+    menuToggle.focus();
+  }
+});
+
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 700) {
+    closeMenu();
+  }
 });
 
 
@@ -66,39 +107,8 @@ revealElements.forEach((element) => {
 
 // ================= NAVBAR SCROLL EFFECT =================
 
-const navbar = document.querySelector(".navbar");
-
 window.addEventListener("scroll", () => {
-
-  if (window.scrollY > 50) {
-
-    navbar.style.background = "rgba(5, 5, 5, 0.95)";
-
-  } else {
-
-    navbar.style.background = "rgba(8, 8, 8, 0.82)";
-
-  }
-
-});
-
-
-// ================= PROJECT HOVER =================
-
-document.querySelectorAll(".project").forEach((project) => {
-
-  project.addEventListener("mouseenter", () => {
-
-    project.style.borderTopColor = "#ff3045";
-
-  });
-
-  project.addEventListener("mouseleave", () => {
-
-    project.style.borderTopColor = "#242424";
-
-  });
-
+  navbar.classList.toggle("is-scrolled", window.scrollY > 24);
 });
 
 
